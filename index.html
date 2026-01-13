@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Or-Bo PWS Dashboard - Ramot Me'ir Weather Station</title>
+    <meta name="description" content="Real-time weather data and forecast from Or-Bo Personal Weather Station in Ramot Me'ir">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="station-info">
+                    <h1 class="station-name">Or-Bo PWS</h1>
+                    <p class="station-location">Ramot Me'ir, Israel</p>
+                </div>
+                <div class="header-right">
+                    <div class="last-update" id="lastUpdate">
+                        <span class="update-label">Last Updated:</span>
+                        <span class="update-time">--:--</span>
+                    </div>
+                    <button class="refresh-btn" id="refreshBtn" aria-label="Refresh data">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Weather Display -->
+        <section class="hero-section">
+            <div class="current-weather">
+                <div class="weather-icon" id="weatherIcon">
+                    <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                </div>
+                <div class="current-temp">
+                    <span class="temp-value" id="currentTemp">--</span>
+                    <span class="temp-unit">°C</span>
+                </div>
+                <div class="temp-range">
+                    <span class="temp-min">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 5v14M5 12l7 7 7-7"/>
+                        </svg>
+                        <span id="tempMin">--</span>°
+                    </span>
+                    <span class="temp-max">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 19V5M5 12l7-7 7 7"/>
+                        </svg>
+                        <span id="tempMax">--</span>°
+                    </span>
+                </div>
+                <p class="weather-description" id="weatherDesc">Loading...</p>
+            </div>
+        </section>
+
+        <!-- Weather Cards Grid -->
+        <section class="weather-grid">
+            <!-- Temperature Card -->
+            <div class="weather-card">
+                <div class="card-header">
+                    <h3 class="card-title">Temperature</h3>
+                    <svg class="card-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"/>
+                    </svg>
+                </div>
+                <div class="card-value" id="tempCurrent">--°C</div>
+                <div class="card-stats">
+                    <div class="stat">
+                        <span class="stat-label">Min (24h)</span>
+                        <span class="stat-value" id="tempMinDay">--°C</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Max (24h)</span>
+                        <span class="stat-value" id="tempMaxDay">--°C</span>
+                    </div>
+                </div>
+                <div class="card-extra">
+                    <span class="extra-label">Feels Like:</span>
+                    <span class="extra-value" id="feelsLike">--°C</span>
+                </div>
+            </div>
+
+            <!-- Humidity Card -->
+            <div class="weather-card">
+                <div class="card-header">
+                    <h3 class="card-title">Humidity</h3>
+                    <svg class="card-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+                    </svg>
+                </div>
+                <div class="card-value" id="humidityCurrent">--%</div>
+                <div class="card-stats">
+                    <div class="stat">
+                        <span class="stat-label">Min (24h)</span>
+                        <span class="stat-value" id="humidityMin">--%</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Max (24h)</span>
+                        <span class="stat-value" id="humidityMax">--%</span>
+                    </div>
+                </div>
+                <div class="card-extra">
+                    <span class="extra-label">Dew Point:</span>
+                    <span class="extra-value" id="dewPoint">--°C</span>
+                </div>
+            </div>
+
+            <!-- Wind Card -->
+            <div class="weather-card">
+                <div class="card-header">
+                    <h3 class="card-title">Wind</h3>
+                    <svg class="card-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/>
+                    </svg>
+                </div>
+                <div class="card-value" id="windSpeed">-- km/h</div>
+                <div class="card-stats">
+                    <div class="stat">
+                        <span class="stat-label">Direction</span>
+                        <span class="stat-value" id="windDir">--</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Gust</span>
+                        <span class="stat-value" id="windGust">-- km/h</span>
+                    </div>
+                </div>
+                <div class="card-extra">
+                    <div class="wind-compass" id="windCompass">
+                        <div class="compass-arrow"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pressure Card -->
+            <div class="weather-card">
+                <div class="card-header">
+                    <h3 class="card-title">Pressure</h3>
+                    <svg class="card-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                </div>
+                <div class="card-value" id="pressureCurrent">-- hPa</div>
+                <div class="card-stats">
+                    <div class="stat">
+                        <span class="stat-label">Min (24h)</span>
+                        <span class="stat-value" id="pressureMin">-- hPa</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Max (24h)</span>
+                        <span class="stat-value" id="pressureMax">-- hPa</span>
+                    </div>
+                </div>
+                <div class="card-extra">
+                    <span class="extra-label">Trend:</span>
+                    <span class="extra-value" id="pressureTrend">--</span>
+                </div>
+            </div>
+
+            <!-- Rain Card -->
+            <div class="weather-card">
+                <div class="card-header">
+                    <h3 class="card-title">Rainfall</h3>
+                    <svg class="card-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="8" y1="19" x2="8" y2="21"/>
+                        <line x1="8" y1="13" x2="8" y2="15"/>
+                        <line x1="16" y1="19" x2="16" y2="21"/>
+                        <line x1="16" y1="13" x2="16" y2="15"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="12" y1="15" x2="12" y2="17"/>
+                        <path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/>
+                    </svg>
+                </div>
+                <div class="card-value" id="rainRate">-- mm/h</div>
+                <div class="card-stats">
+                    <div class="stat">
+                        <span class="stat-label">Today</span>
+                        <span class="stat-value" id="rainToday">-- mm</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">This Week</span>
+                        <span class="stat-value" id="rainWeek">-- mm</span>
+                    </div>
+                </div>
+                <div class="card-extra">
+                    <span class="extra-label">Monthly:</span>
+                    <span class="extra-value" id="rainMonth">-- mm</span>
+                </div>
+            </div>
+
+            <!-- Solar Radiation Card -->
+            <div class="weather-card">
+                <div class="card-header">
+                    <h3 class="card-title">Solar & UV</h3>
+                    <svg class="card-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"/>
+                        <line x1="12" y1="1" x2="12" y2="3"/>
+                        <line x1="12" y1="21" x2="12" y2="23"/>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                        <line x1="1" y1="12" x2="3" y2="12"/>
+                        <line x1="21" y1="12" x2="23" y2="12"/>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                    </svg>
+                </div>
+                <div class="card-value" id="solarRadiation">-- W/m²</div>
+                <div class="card-stats">
+                    <div class="stat">
+                        <span class="stat-label">UV Index</span>
+                        <span class="stat-value" id="uvIndex">--</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">UV Level</span>
+                        <span class="stat-value" id="uvLevel">--</span>
+                    </div>
+                </div>
+                <div class="card-extra">
+                    <span class="extra-label">Light Intensity:</span>
+                    <span class="extra-value" id="lightIntensity">--</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Forecast Section -->
+        <section class="forecast-section">
+            <h2 class="section-title">5-Day Forecast</h2>
+            <div class="forecast-grid" id="forecastGrid">
+                <!-- Forecast cards will be dynamically inserted here -->
+            </div>
+        </section>
+
+        <!-- Connection Status -->
+        <div class="connection-status" id="connectionStatus">
+            <span class="status-indicator"></span>
+            <span class="status-text">Connecting...</span>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
