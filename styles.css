@@ -219,6 +219,30 @@ body::before {
     box-shadow: var(--shadow-glow);
 }
 
+.unit-toggle-btn {
+    background: hsla(220, 20%, 20%, 0.5);
+    border: 1px solid hsla(220, 20%, 30%, 0.3);
+    color: var(--color-text-primary);
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    font-weight: 600;
+    font-size: 1rem;
+    font-family: var(--font-display);
+}
+
+.unit-toggle-btn:hover {
+    background: hsla(220, 20%, 30%, 0.6);
+    transform: scale(1.05);
+    box-shadow: var(--shadow-glow);
+    border-color: var(--color-accent-primary);
+}
+
 .refresh-btn:active {
     transform: scale(0.95) rotate(90deg);
 }

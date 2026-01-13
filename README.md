@@ -10,25 +10,38 @@ A beautiful, modern weather dashboard for your personal weather station in Ramot
 - **5-Day Forecast**: Weather predictions for the next 5 days
 - **Premium Design**: Modern dark theme with glassmorphism effects and smooth animations
 - **Responsive**: Works perfectly on desktop, tablet, and mobile devices
-- **Multiple API Support**: Compatible with Ambient Weather, Ecowitt, and custom APIs
+- **Unit Toggle**: Switch between Metric (mm, °C, km/h) and Imperial (in, °F, mph) units instantly
+- **Multi-API Support**: Compatible with Ambient Weather, Ecowitt, and custom APIs
 
 ## 🚀 Quick Start
 
-### Option 1: Demo Mode (No Setup Required)
+### Running the Dashboard
 
-Simply open `index.html` in your browser to see the dashboard with demo data:
+The dashboard now requires a Python backend to fetch and store weather data.
 
 ```bash
-# Navigate to the project directory
-cd /Users/orenbouni/Downloads/Ambient
+# 1. Provide execution permissions to the start script
+chmod +x start.sh
 
-# Open in default browser (macOS)
-open index.html
-
-# Or use a local server (recommended)
-python3 -m http.server 8000
-# Then open http://localhost:8000 in your browser
+# 2. Run the application
+./start.sh
 ```
+
+Or manually:
+
+```bash
+# Create/Activate virtual environment
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the server
+python3 server.py
+```
+
+Open [http://localhost:8000](http://localhost:8000) in your browser.
 
 ### Option 2: Connect to Your Weather Station
 
@@ -38,6 +51,8 @@ python3 -m http.server 8000
    - Add your API credentials
 
 2. **Choose your API type**:
+
+   The project comes pre-configured with keys, but you can update them if needed.
 
 #### For Ambient Weather Network:
 
@@ -128,10 +143,13 @@ openWeatherMap: {
 
 ### Units
 
-You can customize the units in the `CONFIG` object:
+You can toggle between Metric and Imperial units using the button in the header. The selection is saved in your browser's local storage.
+
+Default configuration in `app.js`:
 
 ```javascript
 units: {
+    system: 'metric',   // 'metric' or 'imperial'
     temperature: 'C',   // 'C' or 'F'
     wind: 'kmh',        // 'kmh', 'mph', or 'ms'
     pressure: 'hPa',    // 'hPa', 'inHg', or 'mb'
